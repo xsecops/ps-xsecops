@@ -27,7 +27,7 @@ Function Get-File
     {
         # Process each object passed to the function
 
-        if((Test-Path $Outfile) -and !($Force)) {
+        if((Test-Path $Outfile) -or !($Force)) {
             Write-Log "ERR" "The destination file already exists. Use the -Force parameter to overwrite the existing file."
         } else {
             Set-Variable ProgressPreference SilentlyContinue
