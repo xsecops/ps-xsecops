@@ -59,4 +59,4 @@ $blankjson | Out-File "C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\La
 }
 }
 
-Export-ModuleMember -Funtion Clear-StartMenu
+Export-ModuleMember -Function Clear-StartMenu
