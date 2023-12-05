@@ -1,3 +1,4 @@
+function Clear-StartMenu { 
 ############################################################################################################
 #                                             Clear Start Menu                                             #
 #                                                                                                          #
@@ -55,6 +56,7 @@ $blankjson = @'
 '@
 
 $blankjson | Out-File "C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\LayoutModification.xml" -Encoding utf8 -Force
+}
 }
 
 Export-ModuleMember -Funtion Clear-StartMenu
