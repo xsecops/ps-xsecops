@@ -18,7 +18,8 @@ Function Get-File
         [String]$Source,
         [String]$Outfile,
         [Boolean]$AllowTLSDowngrade = $False,
-        [Boolean]$IgnoreSSL = $False
+        [Boolean]$IgnoreSSL = $False,
+        [Switch]$Force
     )
     Begin
     {
@@ -27,7 +28,12 @@ Function Get-File
     Process
     {
         # Process each object passed to the function
-        (New-Object System.Net.WebClient).DownloadFile("$Source", "$Outfile")
+
+        if((Test-Path $Outfile) -and !($Force)) {
+            throw "The destination file already exists. Run this command with the -Force parameter to overwrite the existing file."
+        } else {
+            (New-Object System.Net.WebClient).DownloadFile("$Source", "$Outfile")
+        }
     }
 }
 
