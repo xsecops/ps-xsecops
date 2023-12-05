@@ -39,6 +39,8 @@ function Invoke-WinSetup {
         & ".$PSScriptRoot\Private\Win-Config\Enable-WinFirewall.ps1"
         & ".$PSScriptRoot\Private\Win-Config\Enable-SmartScreenFilter.ps1"
         & ".$PSScriptRoot\Private\Win-Config\Configure-PowerPreferences.ps1"
+        
+        Clear-StartMenu
 
         #& ".$PSScriptRoot\Private\Win-Config\.ps1"
     }
