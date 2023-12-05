@@ -10,13 +10,12 @@ function Install-VSCode {
     [OutputType([string])]
     param (
     )
-    $OutputDir = Get-xSecOpsOutputDir
 
-    if(-not(Test-Path $OutputDir)) {
-        New-Item $OutputDir -ItemType Directory
+    if(-not(Test-Path $script:OutputDir)) {
+        New-Item $script:OutputDir -ItemType Directory
     }
 
-    Set-Location $OutputDir
+    Set-Location $script:OutputDir
 
     Write-Host "Beginning installation of Microsoft Visual Studio Code..."
     if(Get-Command winget -ErrorAction SilentlyContinue) {

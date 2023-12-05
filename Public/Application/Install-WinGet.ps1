@@ -9,9 +9,9 @@ function Install-WinGet {
     $fileName = "Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
     $realDownloadUrl = $realTagUrl.Replace('tag', 'download') + '/' + $fileName
 
-    Get-File $realDownloadUrl "$OutputDir\Downloads\winget.msixbundle"
+    Get-File $realDownloadUrl "$script:OutputDir\Downloads\winget.msixbundle"
 
-    Add-AppxPackage -Path "$OutputDir\Downloads\winget.msixbundle"
+    Add-AppxPackage -Path "$script:OutputDir\Downloads\winget.msixbundle"
 }
 
 Export-ModuleMember -Function Install-WinGet
