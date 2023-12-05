@@ -14,3 +14,5 @@ Start-Process "msiexec.exe" -ArgumentList "/Package $OutputDir\Downloads\ps-late
 Write-Log "INFO" "PowerShell 7 downloaded and installed from: $realDownloadUrl"
 
 }
+
+Export-ModuleMember -Function Install-LatestPS
