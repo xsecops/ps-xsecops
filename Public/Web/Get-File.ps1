@@ -30,8 +30,9 @@ Function Get-File
         if((Test-Path $Outfile) -and !($Force)) {
             Write-Log "ERR" "The destination file already exists. Use the -Force parameter to overwrite the existing file."
         } else {
+            Set-Variable ProgressPreference SilentlyContinue
             Invoke-WebRequest -Uri $Source -OutFile $Outfile
-            #(New-Object System.Net.WebClient).DownloadFile("$Source", "$Outfile")
+            Set-Variable ProgressPreference Continue
         }
     }
 }
