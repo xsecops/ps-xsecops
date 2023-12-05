@@ -1,20 +1,16 @@
 function Clear-StartMenu { 
-############################################################################################################
-#                                             Clear Start Menu                                             #
-#                                                                                                          #
-############################################################################################################
 write-host "Clearing Start Menu"
-#Delete layout file if it already exists
 
 ##Check windows version
 $version = Get-WMIObject win32_operatingsystem | Select-Object Caption
 if ($version.Caption -like "*Windows 10*") {
     write-host "Windows 10 Detected"
     write-host "Removing Current Layout"
-    If(Test-Path C:\Windows\StartLayout.xml)
-    {
-    Remove-Item C:\Windows\StartLayout.xml
+
+    if(Test-Path C:\Windows\StartLayout.xml) {
+      Remove-Item C:\Windows\StartLayout.xml
     }
+    
     write-host "Creating Default Layout"
     #Creates the blank layout file
 
@@ -30,7 +26,9 @@ if ($version.Caption -like "*Windows 10*") {
 "@
     
 #Creates the blank layout file
-$START_MENU_LAYOUT | Out-File $layoutFile -Encoding ASCII
+$START_MENU_LAYOUT | Out-File "C:\Windows\StartMenuLayout.xml" -Encoding ASCII
+
+$START_MENU_LAYOUT | Out-File "C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml" -Encoding ASCII
 
 $regAliases = @("HKLM", "HKCU")
 
@@ -57,7 +55,6 @@ foreach ($regAlias in $regAliases){
     $keyPath = $basePath + "\Explorer" 
     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }
-
 
 }
 if ($version.Caption -like "*Windows 11*") {
