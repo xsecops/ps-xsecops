@@ -9,6 +9,9 @@ function Set-OEMInformation {
         .PARAMETER LogoPath
         Path of the desired OEM Logo (will be copied to Windows\System32 folder(s))
 
+        .PARAMETER LogonUIBgPath
+        Path of the desired Logon Screen Background
+
         .PARAMETER Manufacturer
 
         .PARAMETER SupportPhone
@@ -31,7 +34,11 @@ function Set-OEMInformation {
             [Parameter(ValueFromPipelineByPropertyName)]
             [string[]]$SupportHours,
             [Parameter(ValueFromPipelineByPropertyName)]
-            [string[]]$SupportURL
+            [string[]]$SupportURL,
+            [Parameter(ValueFromPipelineByPropertyName)]
+            [string[]]$LogonUIBgPath,
+            [Parameter(ValueFromPipelineByPropertyName)]
+            [string[]]$SystemWallpaperPath
         )
 
         $strPath = "HKLM:\Software\Microsoft\Windows\CurrentVersion\OEMInformation"
@@ -57,17 +64,44 @@ function Set-OEMInformation {
                 Copy-Item $LogoPath "$env:SystemRoot\Web\Wallpaper\Windows\OEM.bmp"
 
                 Set-ItemProperty -Path $strPath -Name Logo -Value "C:\Windows\System32\OEM.bmp"
-
-                Set-ItemProperty -Path $strPath2 -Name OEMBackground -value 1
-
-                New-Item -Path HKLM:\Software\Policies\Microsoft\Windows -Name Personalization –Force
-                Set-ItemProperty -Path $strPath3 -Name LockScreenImage -value "C:\Windows\Web\Screen\OEM.bmp"
                 
+
                 New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies -Name System -Force
                 Set-ItemProperty -Path $strPath4 -Name Wallpaper -value "C:\Windows\Web\Wallpaper\Windows\OEM.bmp"
                 Set-ItemProperty -Path $strPath4 -Name WallpaperStyle -value "2"
         } catch {
                 Write-Log "ERR" "Failed to set OEM Logo. Skipping this step."
+        }
+        }
+
+        if($LogonUIBgPath) {
+            try {
+                if(-not(Test-Path $LogonUIBgPath)) {
+                    Throw "Cannot enumerate $LogonUIBgPath (file does not exist or is inaccessible)"
+                }
+                Copy-Item $LogonUIBgPath "$env:SystemRoot\Web\Screen\OEM.jpg"
+
+                Set-ItemProperty -Path $strPath2 -Name OEMBackground -value 1
+
+                New-Item -Path HKLM:\Software\Policies\Microsoft\Windows -Name Personalization –Force
+                Set-ItemProperty -Path $strPath3 -Name LockScreenImage -value "C:\Windows\Web\Screen\OEM.jpg"
+                
+        } catch {
+                Write-Log "ERR" "Failed to set LogonUIBgPath. Skipping this step."
+        }
+        }
+
+        if($SystemWallpaperPath) {
+            try {
+                if(-not(Test-Path $SystemWallpaperPath)) {
+                    Throw "Cannot enumerate $SystemWallpaperPath (file does not exist or is inaccessible)"
+                }
+                Copy-Item $SystemWallpaperPath "$env:SystemRoot\Web\Wallpaper\Windows\OEM.jpg"
+                New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies -Name System -Force
+                Set-ItemProperty -Path $strPath4 -Name Wallpaper -value "C:\Windows\Web\Wallpaper\Windows\OEM.bmp"
+                Set-ItemProperty -Path $strPath4 -Name WallpaperStyle -value "2"
+        } catch {
+                Write-Log "ERR" "Failed to set System Wallpaper. Skipping this step."
         }
         }
 

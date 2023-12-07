@@ -1,16 +1,24 @@
-﻿function Get-DCLocalTime() {
+﻿	<#
+	.SYNOPSIS
+		Loop through all domain controllers for a specified domain and report the current date/time
+	.DESCRIPTION
+	 	Identify the currently bound Active Directory domain and loop through all available domain controllers and print out the current time. Used to debug time-drift issues with Kerberos tickets across an Active Directory Domain.
+	.INPUTS
+		None
+	.OUTPUTS
+		None
+	.EXAMPLE
+		Get-DCLocalTime
+	.NOTES
+		Version: 1.0
+		Author:	xSecOps
+		Last Updated: 12/06/2023 
+	#>
+
+function Get-DCLocalTime() {
 [CmdletBinding(DefaultParameterSetName = "Default")]
 Param (
-	[Parameter(
-			   Mandatory = $false,
-			   ValueFromPipelineByPropertyName = $true,
-			   ParameterSetName = "Default",
-			   HelpMessage = "Help for ScriptParamter1."
-			   )]
-	[ValidateNotNullOrEmpty()]
-	[string]$Domain = 'example.com'
 )
-
 Begin
 {
 	#Preprocessing that only runs once per function or script call
