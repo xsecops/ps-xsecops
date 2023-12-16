@@ -98,10 +98,10 @@ function Set-OEMInformation {
                 }
                 Copy-Item $SystemWallpaperPath "$env:SystemRoot\Web\Wallpaper\Windows\OEM.jpg"
                 New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies -Name System -Force
-                Set-ItemProperty -Path $strPath4 -Name Wallpaper -value "C:\Windows\Web\Wallpaper\Windows\OEM.bmp"
+                Set-ItemProperty -Path $strPath4 -Name Wallpaper -value "C:\Windows\Web\Wallpaper\Windows\OEM.jpg"
                 Set-ItemProperty -Path $strPath4 -Name WallpaperStyle -value "2"
         } catch {
-                Write-Log "ERR" "Failed to set System Wallpaper. Skipping this step."
+                #Write-Log "ERR" "Failed to set System Wallpaper. Skipping this step."
         }
         }
 
